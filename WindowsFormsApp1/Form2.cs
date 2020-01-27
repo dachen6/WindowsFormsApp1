@@ -12,9 +12,15 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
+        public string passing;
+        public string Passing
+        {
+            get { return this.passing; }
+        }
         public Form2()
         {
             InitializeComponent();
+           
         }
 
 
@@ -24,5 +30,26 @@ namespace WindowsFormsApp1
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "hh:mm:ss tt";
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+            passing = dateTimePicker1.Text.ToString();
+            this.DialogResult = DialogResult.OK;
+
+            if (checkBox1.Checked)
+            {
+                passing += " on";
+            }
+            else
+            {
+                checkBox1.Checked = false;
+                passing += " off";
+            }
+            this.Close();
+            
+
+        }
+
     }
 }
