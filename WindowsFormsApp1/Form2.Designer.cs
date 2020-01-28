@@ -37,6 +37,7 @@
             // 
             this.dateTimePicker1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.dateTimePicker1.CustomFormat = "hh:mm:ss";
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePicker1.Location = new System.Drawing.Point(185, 136);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
