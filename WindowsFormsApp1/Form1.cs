@@ -15,6 +15,7 @@ namespace WindowsFormsApp1
     {
         System.Timers.Timer time;
         string pass;
+        string pass1;
         public Form1()
         {
             InitializeComponent();
@@ -32,7 +33,13 @@ namespace WindowsFormsApp1
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             DateTime currtime = DateTime.Now;
-            if(string.Equals(currtime.ToString(),))
+            foreach (string s in listBox1.Items)
+            {
+                if (string.Equals(currtime.ToString(), pass.Substring(0, 8)))
+                {
+
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -43,9 +50,10 @@ namespace WindowsFormsApp1
             if(f2.DialogResult == DialogResult.OK)
             {
                 pass = f2.passing;
-                listBox1.Items.Add(pass);
+                pass1 = f2.passing.Substring(0, 4) + f2.passing.Substring(7, 8);
+                listBox1.Items.Add(pass1);
                 f2.DialogResult = DialogResult.None;
-                box.Items.Add(pass);
+                box.Items.Add(pass1);
             }
 
         }
