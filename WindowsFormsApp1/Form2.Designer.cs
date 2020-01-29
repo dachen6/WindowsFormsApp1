@@ -35,18 +35,18 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.dateTimePicker1.CustomFormat = "hh:mm:ss";
+            this.dateTimePicker1.CustomFormat = "";
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dateTimePicker1.Location = new System.Drawing.Point(185, 136);
+            this.dateTimePicker1.Location = new System.Drawing.Point(128, 111);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 0;
-            this.dateTimePicker1.Value = new System.DateTime(2020, 1, 26, 18, 48, 0, 0);
+            this.dateTimePicker1.Value = new System.DateTime(2020, 1, 28, 15, 54, 17, 0);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(379, 282);
+            this.button1.Location = new System.Drawing.Point(374, 222);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -57,7 +57,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(391, 141);
+            this.checkBox1.Location = new System.Drawing.Point(374, 114);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(80, 17);
             this.checkBox1.TabIndex = 3;
@@ -74,7 +74,6 @@
             this.Controls.Add(this.dateTimePicker1);
             this.Name = "Form2";
             this.Text = "Form2";
-            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

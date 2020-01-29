@@ -16,10 +16,10 @@ namespace WindowsFormsApp1
         System.Timers.Timer time;
         string pass;
         string pass1;
+        DateTime dt;
         public Form1()
         {
-            InitializeComponent();
-         
+            InitializeComponent();       
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -32,14 +32,14 @@ namespace WindowsFormsApp1
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            DateTime currtime = DateTime.Now;
+           /* DateTime currtime = DateTime.Now;
             foreach (string s in listBox1.Items)
             {
                 if (string.Equals(currtime.ToString(), pass.Substring(0, 8)))
                 {
 
                 }
-            }
+            }*/
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -50,33 +50,41 @@ namespace WindowsFormsApp1
             if(f2.DialogResult == DialogResult.OK)
             {
                 pass = f2.passing;
-                pass1 = f2.passing.Substring(0, 4) + f2.passing.Substring(7, 8);
-                listBox1.Items.Add(pass1);
+                string[] timeDisplay = pass.Split(' ',':');
+
+                listBox1.Items.Add(pass);
                 f2.DialogResult = DialogResult.None;
-                box.Items.Add(pass1);
+                box.Items.Add(pass);
             }
 
+        }
+
+
+
+
+        private void exit_Click(object sender, EventArgs e)
+        {
+            ListBox box = new ListBox();
+            Form2 f2 = new Form2();
+            int index = listBox1.SelectedIndex;
+            string curItem = listBox1.SelectedItem.ToString();
+            f2.now = DateTime.Parse(curItem.Substring(0,curItem.Length-4));
+            f2.ShowDialog();
+            
+            if (f2.DialogResult == DialogResult.OK)
+            {
+                pass = f2.passing;
+                
+                listBox1.Items.RemoveAt(index);
+                listBox1.Items.Insert(index,pass);
+
+            }
         }
 
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private void exit_Click(object sender, EventArgs e)
-        {
-            ListBox box = new ListBox();
-            Form2 f2 = new Form2();
-            f2.ShowDialog();
-            if (f2.DialogResult == DialogResult.OK)
-            {
-                pass = f2.passing;
-                int index = listBox1.SelectedIndex;
-                listBox1.Items.RemoveAt(index);
-                listBox1.Items.Insert(index,pass);
-
-            }
         }
     }
 }
