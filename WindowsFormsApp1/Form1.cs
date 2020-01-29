@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 
 namespace WindowsFormsApp1
@@ -16,10 +17,13 @@ namespace WindowsFormsApp1
         System.Timers.Timer time;
         string pass;
         string pass1;
+        string[] save = new string[10];
         DateTime dt;
+        int i = 0;
         public Form1()
         {
-            InitializeComponent();       
+            InitializeComponent();
+            using (StreamWriter w = File.AppendText("c:\\timesaver.txt"));
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -50,8 +54,13 @@ namespace WindowsFormsApp1
             if(f2.DialogResult == DialogResult.OK)
             {
                 pass = f2.passing;
+                save[i] = pass;
+                i++;
+                StreamWriter File = new StreamWriter("timesave1.txt");
+                File.Write("54");
+                File.Close();
                 string[] timeDisplay = pass.Split(' ',':');
-
+                pass = timeDisplay[0] + ":" + timeDisplay[1] + ":" + timeDisplay[3] + " " + timeDisplay[4];
                 listBox1.Items.Add(pass);
                 f2.DialogResult = DialogResult.None;
                 box.Items.Add(pass);
@@ -65,10 +74,11 @@ namespace WindowsFormsApp1
         private void exit_Click(object sender, EventArgs e)
         {
             ListBox box = new ListBox();
-            Form2 f2 = new Form2();
+            
             int index = listBox1.SelectedIndex;
             string curItem = listBox1.SelectedItem.ToString();
-            f2.now = DateTime.Parse(curItem.Substring(0,curItem.Length-4));
+
+            Form2 f2 = new Form2();
             f2.ShowDialog();
             
             if (f2.DialogResult == DialogResult.OK)

@@ -25,7 +25,15 @@ namespace WindowsFormsApp1
             
             dateTimePicker1.Value = System.DateTime.Now;
         }
+        public Form2(string s)
+        {
 
+            InitializeComponent();
+
+            DateTime dt = DateTime.ParseExact(s, "HH:mm:ss tt", System.Globalization.CultureInfo.CurrentCulture);
+
+            dateTimePicker1.Value = dt;
+        }
 
 
 
