@@ -44,6 +44,14 @@ namespace WindowsFormsApp1
             DateTime dt = Convert.ToDateTime(s);
             
             dateTimePicker1.Value = dt;
+            if (ison)
+            {
+                checkBox1.Checked = true;
+            }
+            else
+            {
+                checkBox1.Checked = false;
+            }
         }
 
 
@@ -58,14 +66,7 @@ namespace WindowsFormsApp1
             this.DialogResult = DialogResult.OK;
 
 
-            /*if (ison)
-            {
-                checkBox1.Checked = true;
-            }
-            else
-            {
-                checkBox1.Checked = false;
-            }*/
+
 
             if (checkBox1.Checked)
             {
@@ -85,6 +86,17 @@ namespace WindowsFormsApp1
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            CheckBox Mycheckbox = new CheckBox();
+
+        }
+
+        private void buttoncan_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

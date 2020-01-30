@@ -16,7 +16,7 @@ namespace WindowsFormsApp1
     {
         System.Timers.Timer time;
         string pass;
-        int FIVESEC;
+        int FIVESEC = 1;
         string line;
         string linshow;
         DateTime dt;
@@ -40,7 +40,10 @@ namespace WindowsFormsApp1
                 j++;
                 line = File.ReadLine();
             }
-
+            if (j == 10)
+            {
+                button1.Enabled = false;
+            }
             File.Close();
         }
 
@@ -69,11 +72,18 @@ namespace WindowsFormsApp1
                     if (str.Contains("on"))
                     {
                         show.Invoke(new Action(delegate () { show.Text = "on"; }));
-                    }
-                    if (string.Equals(am, System.DateTime.Now.ToString("T")))
+                    }                  
+                    if (string.Equals(am, System.DateTime.Now.ToString("h:mm:ss tt")) || FIVESEC != 1)
                     {
+                        button4.Invoke(new Action(delegate () { button4.Enabled = true; }));
+                        button4.Enabled = true;
                         FIVESEC++;
                         show.Invoke(new Action(delegate () { show.Text = "wentoff"; }));
+                        if(FIVESEC == 60)
+                        {
+                            FIVESEC = 1;
+                            button4.Invoke(new Action(delegate () { button4.Enabled = false; }));
+                        }
                     }
 
                 }
@@ -101,6 +111,10 @@ namespace WindowsFormsApp1
                 f2.DialogResult = DialogResult.None;
                 box.Items.Add(pass);
                 j++;
+            }
+            if (j == 10)
+            {
+                button1.Enabled = false;
             }
 
         }
@@ -142,6 +156,14 @@ namespace WindowsFormsApp1
 
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FIVESEC = 1;
+        }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
