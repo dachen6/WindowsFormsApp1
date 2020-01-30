@@ -15,6 +15,7 @@ namespace WindowsFormsApp1
         Form1 f1 = new Form1();
         public string passing;
         public DateTime now ;
+        bool ison;
         public string Passing
         {
             get { return this.passing; }
@@ -27,11 +28,21 @@ namespace WindowsFormsApp1
         }
         public Form2(string s)
         {
-
+           
             InitializeComponent();
-
-            DateTime dt = DateTime.ParseExact(s, "HH:mm:ss tt", System.Globalization.CultureInfo.CurrentCulture);
-
+            
+            if (s.Contains("on"))
+            {
+                ison = true;
+            }
+            else
+            {
+                ison = false;
+            }
+            string[] timeDisplay = s.Split(' ', ':');
+            s = timeDisplay[0] + ":" + timeDisplay[1] + ":" + timeDisplay[2] + " " + timeDisplay[3];
+            DateTime dt = Convert.ToDateTime(s);
+            
             dateTimePicker1.Value = dt;
         }
 
@@ -39,10 +50,22 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
+      
+
             passing = dateTimePicker1.Text;
             
             this.DialogResult = DialogResult.OK;
+
+
+            /*if (ison)
+            {
+                checkBox1.Checked = true;
+            }
+            else
+            {
+                checkBox1.Checked = false;
+            }*/
 
             if (checkBox1.Checked)
             {
@@ -53,6 +76,7 @@ namespace WindowsFormsApp1
                 checkBox1.Checked = false;
                 passing += " off";
             }
+            
             this.Close();
             
 

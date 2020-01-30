@@ -16,14 +16,32 @@ namespace WindowsFormsApp1
     {
         System.Timers.Timer time;
         string pass;
-        string pass1;
-        string[] save = new string[10];
+        int FIVESEC;
+        string line;
+        string linshow;
         DateTime dt;
         int i = 0;
+        int j;
+        string[] save = new string[10];
         public Form1()
         {
-            InitializeComponent();
-            using (StreamWriter w = File.AppendText("c:\\timesaver.txt"));
+            InitializeComponent();         
+             j = 0;
+            int whattoshow = 1;
+            StreamReader File = new StreamReader("timesave1.txt");
+            line = File.ReadLine();
+            while (line != null &&line != "")
+            {
+                save[j] = line;
+                
+                string[] timeDisplay = line.Split(' ', ':');
+                line = timeDisplay[0] + ":" + timeDisplay[1] + " " + timeDisplay[3] + " " + timeDisplay[4];
+                listBox1.Items.Add(line);
+                j++;
+                line = File.ReadLine();
+            }
+
+            File.Close();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -31,19 +49,35 @@ namespace WindowsFormsApp1
             time = new System.Timers.Timer();
             time.Interval = 1000;
             time.Elapsed += Timer_Elapsed;
-
+            time.Start();
+            
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-           /* DateTime currtime = DateTime.Now;
-            foreach (string s in listBox1.Items)
+            show.Invoke(new Action(delegate () { show.Text = "off"; }));
+            foreach (string str in save)
             {
-                if (string.Equals(currtime.ToString(), pass.Substring(0, 8)))
+                if (str != null)
                 {
+                   
+                    string am;
+                    am = str;
+                    string[] timeDisplay = str.Split(' ', ':');
+                    am = timeDisplay[0] + ":" + timeDisplay[1] + ":" + timeDisplay[2] + " " + timeDisplay[3];
+
+                    if (str.Contains("on"))
+                    {
+                        show.Invoke(new Action(delegate () { show.Text = "on"; }));
+                    }
+                    if (string.Equals(am, System.DateTime.Now.ToString("T")))
+                    {
+                        FIVESEC++;
+                        show.Invoke(new Action(delegate () { show.Text = "wentoff"; }));
+                    }
 
                 }
-            }*/
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -54,16 +88,19 @@ namespace WindowsFormsApp1
             if(f2.DialogResult == DialogResult.OK)
             {
                 pass = f2.passing;
-                save[i] = pass;
-                i++;
+                save[j] = pass;               
                 StreamWriter File = new StreamWriter("timesave1.txt");
-                File.Write("54");
+                foreach (string s in save)
+                {
+                    File.WriteLine(s);
+                }
                 File.Close();
                 string[] timeDisplay = pass.Split(' ',':');
                 pass = timeDisplay[0] + ":" + timeDisplay[1] + ":" + timeDisplay[3] + " " + timeDisplay[4];
                 listBox1.Items.Add(pass);
                 f2.DialogResult = DialogResult.None;
                 box.Items.Add(pass);
+                j++;
             }
 
         }
@@ -76,16 +113,24 @@ namespace WindowsFormsApp1
             ListBox box = new ListBox();
             
             int index = listBox1.SelectedIndex;
-            string curItem = listBox1.SelectedItem.ToString();
-
-            Form2 f2 = new Form2();
+            
+            Form2 f2 = new Form2(save[index]);
             f2.ShowDialog();
             
             if (f2.DialogResult == DialogResult.OK)
             {
                 pass = f2.passing;
-                
+                save[index] = pass;
+                StreamWriter File = new StreamWriter("timesave1.txt");
+                File.Flush();
+                foreach(string s in save)
+                {
+                    File.WriteLine(s);
+                }
+                File.Close();
                 listBox1.Items.RemoveAt(index);
+                string[] timeDisplay = pass.Split(' ', ':');
+                pass = timeDisplay[0] + ":" + timeDisplay[1] + " " + timeDisplay[3] + " " + timeDisplay[4];
                 listBox1.Items.Insert(index,pass);
 
             }
@@ -96,5 +141,7 @@ namespace WindowsFormsApp1
         {
 
         }
+
+
     }
 }
