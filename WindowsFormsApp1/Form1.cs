@@ -16,20 +16,25 @@ namespace WindowsFormsApp1
     {
         System.Timers.Timer time;
         string pass;
-        int FIVESEC = 1;
-        string line;
-        string linshow;
-        DateTime dt;
-        int i = 0;
+        bool showon;
+        bool showoff;
+        string line; 
         int j;
         string[] save = new string[10];
+        int count = 1;
+        bool stop = false;
+        bool snooze;
         public Form1()
         {
             InitializeComponent();         
-             j = 0;
-            int whattoshow = 1;
-            StreamReader File = new StreamReader("timesave1.txt");
-            line = File.ReadLine();
+            if(!File.Exists("timesave1.txt"))
+            {
+                StreamReader qw = new StreamReader("timesave1.txt");
+                qw.Close();
+            }
+             j = 0;           
+            StreamReader fi = new StreamReader("timesave1.txt");
+            line = fi.ReadLine();
             while (line != null &&line != "")
             {
                 save[j] = line;
@@ -38,27 +43,32 @@ namespace WindowsFormsApp1
                 line = timeDisplay[0] + ":" + timeDisplay[1] + " " + timeDisplay[3] + " " + timeDisplay[4];
                 listBox1.Items.Add(line);
                 j++;
-                line = File.ReadLine();
+                line = fi.ReadLine();
             }
             if (j == 10)
             {
                 button1.Enabled = false;
             }
-            File.Close();
+            fi.Close();
+            button4.Enabled = false;
+            button3.Enabled = false;
+            showon = false;
+            showoff = false;
+            stop = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             time = new System.Timers.Timer();
             time.Interval = 1000;
-            time.Elapsed += Timer_Elapsed;
+            time.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
             time.Start();
             
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            show.Invoke(new Action(delegate () { show.Text = "off"; }));
+            
             foreach (string str in save)
             {
                 if (str != null)
@@ -67,27 +77,64 @@ namespace WindowsFormsApp1
                     string am;
                     am = str;
                     string[] timeDisplay = str.Split(' ', ':');
+                    if (timeDisplay[0].Length == 1) 
+                    {
+                        timeDisplay[0] = "0" + timeDisplay[0];
+                    }
                     am = timeDisplay[0] + ":" + timeDisplay[1] + ":" + timeDisplay[2] + " " + timeDisplay[3];
 
                     if (str.Contains("on"))
                     {
-                        show.Invoke(new Action(delegate () { show.Text = "on"; }));
+                        showon = true;
+                       
                     }                  
-                    if (string.Equals(am, System.DateTime.Now.ToString("h:mm:ss tt")) || FIVESEC != 1)
+                    if (string.Equals(am, System.DateTime.Now.ToString("hh:mm:ss tt")))
                     {
-                        button4.Invoke(new Action(delegate () { button4.Enabled = true; }));
-                        button4.Enabled = true;
-                        FIVESEC++;
-                        show.Invoke(new Action(delegate () { show.Text = "wentoff"; }));
-                        if(FIVESEC == 60)
-                        {
-                            FIVESEC = 1;
-                            button4.Invoke(new Action(delegate () { button4.Enabled = false; }));
-                        }
+                        showoff = true;
+                        show.Invoke(new Action(delegate () { show.Text = "went off"; }));
                     }
-
                 }
             }
+            string test = show.Text;
+            if (string.Equals(test, "went off") && stop)
+            {
+                showon = true;
+                stop = false;
+                showoff = false;
+            }
+            if ( snooze)
+            {
+                showoff = false;
+                showon = true;
+                if (count == 5)
+                {
+                    showon = false;
+                    snooze = false;
+                    showoff = true;
+                    count = 1;
+                }
+                count++;
+            }
+            if (showoff)
+            {
+                show.Invoke(new Action(delegate () { show.Text = "went off"; }));
+                button4.Invoke(new Action(delegate () { button4.Enabled = true; }));
+                button3.Invoke(new Action(delegate () { button3.Enabled = true; }));
+            }
+            else if (showon)
+            {
+                show.Invoke(new Action(delegate () { show.Text = "running"; }));
+                button4.Invoke(new Action(delegate () { button4.Enabled = false; }));
+                button3.Invoke(new Action(delegate () { button3.Enabled = false; }));
+            }
+            else
+            {
+                show.Invoke(new Action(delegate () { show.Text = "off"; }));
+            }
+         
+
+            
+      
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -99,12 +146,12 @@ namespace WindowsFormsApp1
             {
                 pass = f2.passing;
                 save[j] = pass;               
-                StreamWriter File = new StreamWriter("timesave1.txt");
+                StreamWriter Fi = new StreamWriter("timesave1.txt");
                 foreach (string s in save)
                 {
-                    File.WriteLine(s);
+                    Fi.WriteLine(s);
                 }
-                File.Close();
+                Fi.Close();
                 string[] timeDisplay = pass.Split(' ',':');
                 pass = timeDisplay[0] + ":" + timeDisplay[1] + ":" + timeDisplay[3] + " " + timeDisplay[4];
                 listBox1.Items.Add(pass);
@@ -135,13 +182,13 @@ namespace WindowsFormsApp1
             {
                 pass = f2.passing;
                 save[index] = pass;
-                StreamWriter File = new StreamWriter("timesave1.txt");
-                File.Flush();
+                StreamWriter Fi = new StreamWriter("timesave1.txt");
+                Fi.Flush();
                 foreach(string s in save)
                 {
-                    File.WriteLine(s);
+                    Fi.WriteLine(s);
                 }
-                File.Close();
+                Fi.Close();
                 listBox1.Items.RemoveAt(index);
                 string[] timeDisplay = pass.Split(' ', ':');
                 pass = timeDisplay[0] + ":" + timeDisplay[1] + " " + timeDisplay[3] + " " + timeDisplay[4];
@@ -158,12 +205,16 @@ namespace WindowsFormsApp1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            FIVESEC = 1;
+            stop = true;
+            button3.Enabled = false;
+            button4.Enabled = false;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            snooze = true;
+            button3.Enabled = false;
+            button4.Enabled = false;
         }
     }
 }
