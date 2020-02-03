@@ -24,12 +24,13 @@ namespace WindowsFormsApp1
         int count = 1;
         bool stop = false;
         bool snooze;
+        //open new form1 and set everything well
         public Form1()
         {
             InitializeComponent();         
             if(!File.Exists("timesave1.txt"))
             {
-                StreamReader qw = new StreamReader("timesave1.txt");
+                StreamWriter qw = new StreamWriter("timesave1.txt");
                 qw.Close();
             }
              j = 0;           
@@ -56,7 +57,11 @@ namespace WindowsFormsApp1
             showoff = false;
             stop = false;
         }
-
+        /// <summary>
+        /// check event every second
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             time = new System.Timers.Timer();
@@ -65,10 +70,16 @@ namespace WindowsFormsApp1
             time.Start();
             
         }
-
+        /// <summary>
+        /// if all alarm are off show off if one is on show on if it went off show wheno off
+        /// when one alarm when off, if we click snooze it will running again after 30 second 
+        /// if we clcik stop, it will continue running
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            
+            showon = false;
             foreach (string str in save)
             {
                 if (str != null)
@@ -106,7 +117,7 @@ namespace WindowsFormsApp1
             {
                 showoff = false;
                 showon = true;
-                if (count == 5)
+                if (count == 30)
                 {
                     showon = false;
                     snooze = false;
@@ -137,6 +148,11 @@ namespace WindowsFormsApp1
       
         }
 
+        /// <summary>
+        /// click add a new alarm
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             ListBox box = new ListBox();
@@ -168,7 +184,11 @@ namespace WindowsFormsApp1
 
 
 
-
+        /// <summary>
+        /// edit a alarm
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exit_Click(object sender, EventArgs e)
         {
             ListBox box = new ListBox();
@@ -202,14 +222,22 @@ namespace WindowsFormsApp1
         {
 
         }
-
+        /// <summary>
+        /// clci snooze
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
             stop = true;
             button3.Enabled = false;
             button4.Enabled = false;
         }
-
+        /// <summary>
+        /// click stop
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
             snooze = true;

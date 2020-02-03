@@ -52,7 +52,7 @@
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(75, 23);
             this.exit.TabIndex = 2;
-            this.exit.Text = "exit";
+            this.exit.Text = "edit";
             this.exit.UseVisualStyleBackColor = true;
             this.exit.Click += new System.EventHandler(this.exit_Click);
             // 
@@ -91,7 +91,7 @@
             this.show.AutoSize = true;
             this.show.Location = new System.Drawing.Point(276, 329);
             this.show.Name = "show";
-            this.show.Size = new System.Drawing.Size(35, 13);
+            this.show.Size = new System.Drawing.Size(41, 15);
             this.show.TabIndex = 6;
             this.show.Text = "label1";
             // 

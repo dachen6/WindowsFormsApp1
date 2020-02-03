@@ -26,6 +26,10 @@ namespace WindowsFormsApp1
             
             dateTimePicker1.Value = System.DateTime.Now;
         }
+        /// <summary>
+        /// edit a alarm
+        /// </summary>
+        /// <param name="s"></param>
         public Form2(string s)
         {
            
@@ -55,7 +59,11 @@ namespace WindowsFormsApp1
         }
 
 
-
+        /// <summary>
+        /// add new alarm to form1
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -93,7 +101,11 @@ namespace WindowsFormsApp1
             CheckBox Mycheckbox = new CheckBox();
 
         }
-
+        /// <summary>
+        /// clost form2
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttoncan_Click(object sender, EventArgs e)
         {
             this.Close();
